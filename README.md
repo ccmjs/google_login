@@ -10,6 +10,7 @@ No build step or package installation is needed.
 ```javascript
 user: ["ccm.instance", "https://ccmjs.github.io/google_login/ccm.google_login.mjs", {
   server: "https://YOUR_CCM_SERVER",
+  clientId: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
   realm: "ccm",
   url: "https://ccmjs.github.io/google_login/auth.html",
   displayName: "name",
@@ -78,18 +79,18 @@ The component has one operating mode; `server: false` is not supported.
 
 ## Demo and files
 
-Serve the repository over HTTP and open `index.html`. Start a configured CCM server
-on port 8080. The demo uses `https://ccmjs.github.io/google_login/auth.html`; publish
+Serve the repository over HTTP and open `index.html`, which starts the component with its default configuration. Start a configured CCM server
+on port 8080. The default configuration uses `https://ccmjs.github.io/google_login/auth.html`; publish
 the callback and its resources first. For local popup testing, configure `url` to
 `http://localhost:8000/auth.html` and register that origin with Google.
 
 Resource URL strings must resolve to this repository when embedded elsewhere; override
 relative dependencies with hosted URLs if your embedding setup does not resolve them
-relative to the component. The public client ID is in `resources/configs.mjs`.
+relative to the component. Set the public client ID through `config.clientId`; the default is defined in the component.
 Never put a client secret in browser files.
 
 - `ccm.google_login.mjs`: configuration, lifecycle, session and login orchestration.
-- `resources/`: views, CSS, demo configuration and extensions.
+- `resources/`: views, CSS and popup page logic.
 - `auth.html`: minimal callback entry point; markup comes from `resources/views.mjs`.
 - `resources/auth.mjs`: logic running inside the popup. Opener communication is a private helper in the component.
 - `libs/`: bundled framework and UI helper.
@@ -103,13 +104,13 @@ See the Google setup instructions below.
 2. Register the callback page's origin under **Authorized JavaScript origins**,
    for example `https://ccmjs.github.io`. For a local callback add the exact origin,
    such as `http://localhost:8000`.
-3. Put the public client ID in `resources/configs.mjs`. A client secret is neither needed
+3. Set the public client ID in the component configuration as `clientId`. A client secret is neither needed
    nor permitted in these browser files.
 4. Publish `auth.html` at the repository root together with the `resources/` directory.
-   `resources/auth.mjs` loads the popup view and public client ID from that directory.
+   `resources/auth.mjs` loads the popup view from that directory and receives the client ID from the opener.
 5. Configure the component's `url` to point at `https://ccmjs.github.io/google_login/auth.html`.
 
-The component defaults to its own callback page. The demo uses `https://ccmjs.github.io/google_login/auth.html`; publish this repository
+The component defaults to its own callback page. The default configuration uses `https://ccmjs.github.io/google_login/auth.html`; publish this repository
 through GitHub Pages before using it.
 A shared GitHub Pages origin does not require another Google origin registration just
 because the repository path changes. The embedding website can have a different origin.
@@ -129,3 +130,7 @@ Before that handshake only fallback error/status text is available.
 Official documentation:
 - https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid
 - https://developers.google.com/identity/gsi/web/guides/verify-google-id-token
+
+The popup receives `clientId` with the labels through the validated opener handshake.
+Register the popup origin for that OAuth client, and configure the same client ID
+on the CCM server for token verification. The client ID is public, not a client secret.

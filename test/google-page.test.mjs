@@ -15,13 +15,13 @@ test("hosted page requires validated opener handshake before automatically loadi
   const replies = []; const scripts = []; let receive, options;
   const opener = { postMessage(...args) { replies.push(args); } };
   const context = {
-    clientId: "test-client", popup, URL, URLSearchParams,
+    popup, URL, URLSearchParams,
     location: { hash: '#origin=https%3A%2F%2Fapp.example&request=test' },
     window: { opener, addEventListener(type, fn) { receive = fn; }, close() {} },
     document: { body: {}, documentElement: {}, querySelector: element, createElement() { return { remove() { this.removed = true; } }; }, head: { append(script) { scripts.push(script); } } },
     google: { accounts: { id: { initialize(value) { options = value; }, renderButton() {} } } },
   };
-  const source = (await readFile(new URL('../resources/auth.mjs', import.meta.url), 'utf8')).replace('import { clientId } from "./configs.mjs";', '').replace('import { popup } from "./views.mjs";', '');
+  const source = (await readFile(new URL('../resources/auth.mjs', import.meta.url), 'utf8')).replace('import { popup } from "./views.mjs";', '');
   vm.runInNewContext(source, context);
   for (const id of ["heading", "origin", "retry", "google", "message"])
     assert.ok(context.document.body.innerHTML.includes(`id="${id}"`));
@@ -34,7 +34,14 @@ test("hosted page requires validated opener handshake before automatically loadi
   receive({ source: opener, origin: 'https://app.example', data: { type: 'ccm-google-init', request: 'test', labels: {} } });
   assert.equal(scripts.length, 0);
   assert.match(element('#message').textContent, /Please open this page/);
-  receive({ source: opener, origin: 'https://app.example', data: { type: 'ccm-google-init', request: 'test', labels: { ...defaults.labels.popup, heading: '<b>Anmelden für</b>', loading: 'Wird geladen …', language: 'de' } } });
+  for (const clientId of [undefined, null, 123, "", "   "]) {
+    receive({ source: opener, origin: 'https://app.example', data: {
+      type: 'ccm-google-init', request: 'test', clientId, labels: defaults.labels.popup,
+    } });
+    assert.equal(scripts.length, 0);
+    assert.equal(element('#message').textContent, defaults.labels.popup.missingClientId);
+  }
+  receive({ source: opener, origin: 'https://app.example', data: { type: 'ccm-google-init', request: 'test', clientId: 'custom-client', labels: { ...defaults.labels.popup, heading: '<b>Anmelden für</b>', loading: 'Wird geladen …', language: 'de' } } });
   assert.equal(scripts.length, 1);
   assert.equal(context.document.title, 'Sign in with Google');
   assert.equal(element('#heading').textContent, '<b>Anmelden für</b>');
@@ -50,6 +57,7 @@ test("hosted page requires validated opener handshake before automatically loadi
   assert.equal(scripts.length, 2);
   assert.equal(element('#retry').hidden, true);
   scripts[1].onload();
+  assert.equal(options.client_id, "custom-client");
   assert.equal(options.ux_mode, 'popup');
   options.callback({ credential: 'proof' });
   assert.equal(replies.at(-1)[0].idToken, 'proof');

@@ -1,4 +1,3 @@
-import { clientId } from "./configs.mjs";
 import { popup } from "./views.mjs";
 
 // Build the popup before looking up its fields or accepting messages from the opener.
@@ -15,6 +14,8 @@ const request = params.get("request");
 const origin = params.get("origin");
 const message = document.querySelector("#message");
 const retry = document.querySelector("#retry");
+/** Public client ID supplied by the verified opener handshake. */
+let clientId;
 let initialized = false;
 let completed = false;
 
@@ -55,8 +56,10 @@ try {
         throw new Error(labels.invalidRequest);
       labels = received;
       applyLabels();
+      if (typeof event.data.clientId !== "string" || !event.data.clientId.trim())
+        throw new Error(labels.missingClientId);
+      clientId = event.data.clientId;
       initialized = true;
-      if (!clientId) throw new Error(labels.missingClientId);
       loadGoogle();
     } catch (error) { message.textContent = error.message; }
   });
