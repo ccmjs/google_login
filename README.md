@@ -50,13 +50,22 @@ session; it neither signs out of Google nor revokes an already issued JWT.
 | `isLoggedIn()` | Whether a CCM session is held |
 | `getState()` | Copy of `{ key, user, realm, provider, picture? }`, or `null` |
 | `getToken()` | CCM JWT, or `null` |
-| `getSessionOwner()` | This instance, for datastore retry coordination |
+| `getSessionOwner()` | Highest matching ancestor, or this instance |
+| `subscribe(listener)` | Register an event listener for dependent instances |
 | `cancel()` | Cancel pending work without removing an established session |
 | `getProvider()` | `google` |
 | `setDisabled(boolean)` | Prevent new login attempts |
 | `emit(type)` | Dispatch to configured extensions sequentially |
 
-Each instance owns its session. Independent instances do not synchronize live changes.
+Instances in the same parent chain share the highest Google login instance with the
+same normalized server URL, realm and Google client ID. Apps expose it through
+`config.user`; direct Google login parents are also recognized. Parent relationships
+are assumed fixed. Only the owner renders, restores and saves the session, and opens
+popups. Child instances delegate login, logout, cancellation, session getters and
+disabling to it. Session events reach each child's own extensions, even across component
+module versions; lifecycle events (`init`, `ready`, `start`) remain local.
+Sibling branches or different server/realm/client configurations keep independent
+live sessions. Saved-session storage remains separated by server and realm as before.
 The framework can retry an expired session through logout/login without restarting the
 app. A browser may block a popup opened without a user gesture; the user can sign in
 using the rendered button and retry the action.

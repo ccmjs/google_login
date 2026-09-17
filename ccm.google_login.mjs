@@ -99,6 +99,12 @@ export const component = {
      */
     let pending = null;
 
+    /** Highest matching ancestor that owns this instance's session, or null for the owner itself. */
+    let sessionOwner = null;
+
+    /** Session event listeners registered by dependent Google login instances. */
+    const listeners = new Set();
+
     /** Normalizes the server URL before session storage is accessed. */
     this.init = async () => {
       // Equivalent server URLs must use the same storage key; invalid absolute URLs fail early.
@@ -108,6 +114,19 @@ export const component = {
 
     /** Restores a saved CCM session before notifying ready extensions. */
     this.ready = async () => {
+      // All instance URLs are normalized in init; find the owner before restoring any saved session.
+      sessionOwner = findSessionOwner();
+      if (sessionOwner) {
+        // Applications keep using their own instance while the highest matching instance does the work.
+        for (const method of ["login", "logout", "cancel", "getState", "getToken", "isLoggedIn", "setDisabled"])
+          this[method] = (...args) => sessionOwner[method](...args);
+        // Session events reach this instance's own extensions; lifecycle events remain local.
+        sessionOwner.subscribe(type => {
+          if (!["init", "ready", "start"].includes(type)) return this.emit(type);
+        });
+        await this.emit("ready");
+        return;
+      }
       const saved = storage("getItem");
       if (saved) {
         try {
@@ -144,8 +163,8 @@ export const component = {
     /** Reports whether a CCM token is held; this does not check its expiry or server-side validity. */
     this.isLoggedIn = () => token !== null;
 
-    /** Identifies this instance as the owner of its session for shared datastore retries. */
-    this.getSessionOwner = () => this;
+    /** Returns the highest matching Google login instance for shared datastore retries. */
+    this.getSessionOwner = () => sessionOwner ?? this;
 
     /** Discards the local CCM session and cancels pending authentication without signing out of Google. */
     this.logout = async () => {
@@ -215,10 +234,37 @@ export const component = {
     this.emit = async (type) => {
       const extensions = [].concat(this.extensions || []);
       for (const extension of extensions) if (extension) await extension({ app: this, type });
+      for (const listener of listeners) await listener(type);
     };
 
-    /** Updates only this instance's view. */
-    const render = () => this.ui.render(this.views.main(this), this.element, this);
+    /**
+     * Registers an event listener so child instances can notify their own extensions.
+     * @param {function(string): (void|Promise<void>)} listener - Receives the emitted event type
+     */
+    this.subscribe = listener => listeners.add(listener);
+
+    /** Finds the highest compatible Google login instance along the fixed parent chain. */
+    const findSessionOwner = () => {
+      let owner = null;
+      let parent = this.parent;
+      while (parent) {
+        // Apps conventionally expose authentication through config.user; a provider can also be a direct parent.
+        for (const candidate of [parent, parent.user]) {
+          if (candidate && candidate !== this && candidate.getProvider?.() === "google" &&
+              candidate.server === this.server && candidate.realm === this.realm && candidate.clientId === this.clientId &&
+              typeof candidate.subscribe === "function" && typeof candidate.login === "function")
+            owner = candidate;
+        }
+        parent = parent.parent;
+      }
+      return owner;
+    };
+
+    /** Only the session owner renders; child instances keep their own containers empty. */
+    const render = () => {
+      if (sessionOwner) return this.element?.replaceChildren();
+      this.ui.render(this.views.main(this), this.element, this);
+    };
 
     /**
      * Accesses this component's saved CCM session, tolerating unavailable browser storage.
