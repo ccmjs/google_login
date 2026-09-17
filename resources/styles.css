@@ -1,0 +1,19 @@
+.root {
+  font: 1rem/1.5 system-ui, sans-serif;
+  &, & * { box-sizing: border-box; }
+  button {
+    width: 100%; min-height: 2.75rem; padding: .65rem 1rem;
+    border: 1px solid #747775; border-radius: .5rem; background: white;
+    color: #1f1f1f; font: inherit; cursor: pointer;
+    &:hover:not(:disabled) { background: #f3f6fa; }
+    &:focus-visible { outline: 3px solid #4285f4; outline-offset: 3px; }
+    &:disabled { opacity: .55; cursor: default; }
+  }
+  p { margin: .5rem 0 0; color: #a51d22; }
+  p:empty { display: none; }
+}
+
+.root .profile {
+  display: flex; align-items: center; gap: .75rem; margin-bottom: .75rem;
+  img { width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover; }
+}

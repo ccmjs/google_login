@@ -1,0 +1,13 @@
+:root { font: 1rem/1.5 system-ui, sans-serif; color: #202b3b; background: #f3f6fa; }
+body { margin: 0; padding: 2rem 1rem; }
+main {
+  max-width: 28rem; margin: auto; padding: 1.5rem; background: white;
+  border: 1px solid #dbe2eb; border-radius: 1rem;
+  h1 { font-size: 1rem; font-weight: 400; margin: 0; }
+  #origin { display: block; overflow-wrap: anywhere; }
+  button { padding: .65rem 1rem; font: inherit; cursor: pointer; }
+  :focus-visible { outline: 3px solid #d98a1c; outline-offset: 3px; }
+  #message { color: #9d2525; }
+  #message:empty { display: none; }
+  #google { margin-block: 1rem; min-height: 2.5rem; }
+}
