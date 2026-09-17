@@ -10,5 +10,4 @@ export const demo = {
   realm: "ccm",
   displayName: "name",
   picture: true,
-  extensions: [["ccm.load", "././resources/extensions.mjs#result"]],
 };

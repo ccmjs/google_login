@@ -86,7 +86,7 @@ export const component = {
     /** Identifies the authentication provider for a consuming application. */
     this.getProvider = () => "google";
 
-    /** Returns a copy of CCM user metadata, or null when signed out. */
+    /** Returns a copy of CCM user metadata, or `null` when signed out. */
     this.getState = () => state && { ...state };
 
     /** Returns the CCM JWT for authenticated datastore requests. */

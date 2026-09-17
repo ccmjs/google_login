@@ -1,14 +1,14 @@
-/** Renders the provider button and an accessible error message. */
+/** Renders a compact login or account control with an accessible error message. */
 export function main(app) {
   const state = app.getState();
   return app.ui.html`
-    <div>
+    <div class="account">
     ${state ? app.ui.html`
       <div class="profile">
         ${state.picture ? app.ui.html`<img src="${escape(state.picture)}" alt="" referrerpolicy="no-referrer">` : ""}
-        <span>${escape(state.user)}</span>
+        <span class="name" title="${escape(state.user)}">${escape(state.user)}</span>
+        <button class="logout" type="button" data-on-click="logout">${escape(app.labels.logout)}</button>
       </div>
-      <button type="button" data-on-click="logout">${escape(app.labels.logout)}</button>
     ` : app.ui.html`<button type="button" data-on-click="login" ${app.gui.busy || app.gui.disabled ? "disabled" : ""}
             aria-busy="${app.gui.busy}">${escape(app.labels.button)}</button>`}
     <p role="status" aria-live="polite">${escape(app.gui.message)}</p>
