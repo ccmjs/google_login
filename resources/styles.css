@@ -11,6 +11,10 @@
     &:focus-visible { outline: 3px solid #4285f4; outline-offset: 3px; }
     &:disabled { opacity: .55; cursor: default; }
   }
+  button[data-on-click="login"] {
+    min-block-size: 2.5rem;
+    padding-block: .375rem;
+  }
   .profile {
     display: flex; align-items: center; gap: .5rem;
     img { width: 1.75rem; height: 1.75rem; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
