@@ -1,3 +1,4 @@
+import * as templates from "./support/templates.mjs";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { component } from "../ccm.google_login.mjs";
@@ -67,7 +68,7 @@ test("instances have independent pending logins", async t => {
 
 test("views escape labels and messages and disable busy buttons", () => {
   const app = { getState: () => null, gui: { busy: true, message: "<script>" }, labels: { button: "<b>Google</b>" },
-    ui: { html: (strings, ...values) => strings.reduce((text, part, i) => text + part + (values[i] ?? ""), "") } };
-  const html = views.main(app);
+    ui: templates };
+  const html = String(views.main(app));
   assert.match(html, /disabled/); assert.match(html, /&lt;b&gt;/); assert.doesNotMatch(html, /<script>/);
 });

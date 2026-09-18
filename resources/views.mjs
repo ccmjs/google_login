@@ -5,14 +5,14 @@ export function main(app) {
     <div class="account">
     ${state ? app.ui.html`
       <div class="profile">
-        ${state.picture ? app.ui.html`<img src="${escape(state.picture)}" alt="" referrerpolicy="no-referrer">` : ""}
-        <span class="name" title="${escape(state.user)}">${escape(state.user)}</span>
+        ${state.picture ? app.ui.html`<img src="${state.picture}" alt="" referrerpolicy="no-referrer">` : ""}
+        <span class="name" title="${state.user}">${state.user}</span>
         <button class="logout" type="button" data-on-click="logout"
-          aria-label="${escape(app.labels.logout)}" title="${escape(app.labels.logout)}">${logoutIcon(app)}</button>
+          aria-label="${app.labels.logout}" title="${app.labels.logout}">${logoutIcon(app)}</button>
       </div>
     ` : app.ui.html`<button type="button" data-on-click="login" ${app.gui.busy || app.gui.disabled ? "disabled" : ""}
-            aria-busy="${app.gui.busy}">${escape(app.labels.button)}</button>`}
-    <p role="status" aria-live="polite">${escape(app.gui.message)}</p>
+            aria-busy="${app.gui.busy}">${app.labels.button}</button>`}
+    <p role="status" aria-live="polite">${app.gui.message}</p>
     </div>
   `;
 }
@@ -32,13 +32,6 @@ export function popup() {
 /** Renders the configurable sign-out icon; the button provides its accessible name. */
 function logoutIcon(app) {
   const source = app.icons.logout.trim();
-  const content = /^<svg[\s>]/i.test(source) ? source : app.ui.html`<img src="${escape(source)}" alt="">`;
+  const content = /^<svg[\s>]/i.test(source) ? app.ui.raw(source) : app.ui.html`<img src="${source}" alt="">`;
   return app.ui.html`<span class="icon" aria-hidden="true">${content}</span>`;
-}
-
-/** Escapes configurable labels before inserting them into HTML. */
-function escape(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
-  })[char]);
 }
