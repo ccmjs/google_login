@@ -54,7 +54,7 @@ export const component = {
       popupBlocked: "Please allow the login popup and try again.",
       /** Error when the popup does not complete within the time limit. */
       timeout: "Google sign-in timed out. Please try again.",
-      /** Message of the AbortError returned when login is cancelled. */
+      /** Message of the AbortError returned when login is canceled. */
       cancelled: "Login cancelled.",
       /** Labels sent to the hosted popup through the opener handshake. */
       popup: {
