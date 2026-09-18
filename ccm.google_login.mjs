@@ -13,7 +13,7 @@ export const component = {
     /** Public Google OAuth Web client ID; the CCM server must trust the same client. */
     clientId: "90855209934-9vas1fscpkefmglhfou7lut1uhv62ear.apps.googleusercontent.com",
     /** Hosted callback page whose origin is registered with Google. */
-    url: "././auth.html",
+    url: "https://ccmjs.github.io/google_login/auth.html",
     /** CCM server API used to exchange the Google proof for a session. */
     server: "http://localhost:8080",
     /** Independent account area and saved-session namespace. */
@@ -32,6 +32,12 @@ export const component = {
     css: ["ccm.load", "././resources/styles.css"],
     /** Event handlers receiving { app, type }, awaited sequentially in configuration order. */
     extensions: [],
+    /** Inline SVG markup or image URL for the compact sign-out action. */
+    icons: {
+      logout: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+        focusable="false"><path d="M9 4H4v16h5 M10 12h10 M16 8l4 4-4 4"/></svg>`,
+    },
     /** Configurable interface text and error messages. */
     labels: {
       /** Text of the Google sign-in button. */
