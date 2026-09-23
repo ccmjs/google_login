@@ -143,3 +143,10 @@ Official documentation:
 The popup receives `clientId` with the labels through the validated opener handshake.
 Register the popup origin for that OAuth client, and configure the same client ID
 on the CCM server for token verification. The client ID is public, not a client secret.
+
+## Session access
+
+Use `getState()` for a copy of user metadata and `getToken()` for the CCM token.
+Both reflect shared parent sessions and selected providers where applicable.
+These authentication components keep session data private; transient UI state is
+available through `gui`.
