@@ -102,7 +102,7 @@ Never put a client secret in browser files.
 - `resources/`: views, CSS and popup page logic.
 - `auth.html`: minimal callback entry point; markup comes from `resources/views.mjs`.
 - `resources/auth.mjs`: logic running inside the popup. Opener communication is a private helper in the component.
-- `libs/`: bundled framework and UI helper.
+- `libs/`: versioned framework 28.0.0 and ccm-ui 1.0.0, each bundled as a minified file with its source map and license.
 
 Run `node --test test/*.test.mjs`.
 See the Google setup instructions below.

@@ -8,7 +8,7 @@
  */
 export const component = {
   name: "google_login",
-  ccm: "././libs/framework/ccm.js",
+  ccm: "././libs/framework/ccm-28.0.0.min.js",
   config: {
     /** Public Google OAuth Web client ID; the CCM server must trust the same client. */
     clientId: "90855209934-9vas1fscpkefmglhfou7lut1uhv62ear.apps.googleusercontent.com",
@@ -25,7 +25,7 @@ export const component = {
     /** Whether the CCM session should include Google's profile picture URL. */
     picture: true,
     /** UI utilities for HTML templates, rendering and DOM event binding. */
-    ui: ["ccm.load", "././libs/ccm-ui/ccm-ui.mjs"],
+    ui: ["ccm.load", "././libs/ccm-ui/ccm-ui-1.0.0.min.mjs"],
     /** Templates for the login button and signed-in account view. */
     views: ["ccm.load", "././resources/views.mjs"],
     /** Styles for this component instance; the hosted popup uses its own stylesheet. */
