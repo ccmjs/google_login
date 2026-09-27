@@ -7,11 +7,12 @@ No build step or package installation is needed.
 
 ## Usage
 
-For the local path below, copy the component file together with its `libs/` and
-`resources/` directories into your app's `libs/google_login/` directory.
+Place the released `ccm.google_login-1.0.1.min.mjs` file in your app's
+`libs/google_login/` directory. This version loads its views, styles and libraries
+from the pinned v1.0.1 CDN release; you do not need to copy their directories.
 
 ```javascript
-user: ["ccm.instance", "././libs/google_login/ccm.google_login.mjs"],
+user: ["ccm.instance", "././libs/google_login/ccm.google_login-1.0.1.min.mjs"],
 ```
 
 No additional configuration is required for the default setup. Start a CCM server
