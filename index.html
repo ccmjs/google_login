@@ -4,17 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Google Login Demo</title>
-  <script
-      src="https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.1/libs/framework/ccm-28.0.0.min.js"
-      integrity="sha384-HDMeDDgKlR2OFJ3ECMwmA6wknqpfpeCiSZYlUhQaFg9FKrvHJp8MMSwrxibvWJ2G"
-      crossorigin="anonymous"
-  ></script>
+  <script src="./libs/framework/ccm-28.0.0.min.js"></script>
   <script type="module">
-    ccm.start(
-        "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.1/ccm.google_login-1.0.1.min.mjs#sha384-ChubwnOOQyz4n+wcldm+U0K+28VaVoP0a3MEvyRJ7+TQf7c0AyaksN1eEfeW3LHH",
-        {},
-        document.body
-    );
+    await ccm.start("./ccm.google_login.mjs", {}, document.body);
   </script>
 </head>
 <body></body>
