@@ -11,15 +11,11 @@ For the local path below, copy the component file together with its `libs/` and
 `resources/` directories into your app's `libs/google_login/` directory.
 
 ```javascript
-user: ["ccm.instance", "././libs/google_login/ccm.google_login.mjs", {
-  server: "https://YOUR_CCM_SERVER",
-  clientId: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
-  realm: "ccm",
-  url: "https://ccmjs.github.io/google_login/auth.html",
-  displayName: "name",
-  picture: true,
-}],
+user: ["ccm.instance", "././libs/google_login/ccm.google_login.mjs"],
 ```
+
+No additional configuration is required for the default setup. Start a CCM server
+with the matching Google provider configuration at `http://localhost:8080`.
 
 An app calls `await this.user.login()`, reads `getState()` and `getToken()`, and signs
 out with `await this.user.logout()`. The view displays the Google button while signed
@@ -54,15 +50,15 @@ session; it neither signs out of Google nor revokes an already issued JWT.
 <script type="module">
   ccm.start(
       "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.1/ccm.google_login-1.0.1.min.mjs#sha384-ChubwnOOQyz4n+wcldm+U0K+28VaVoP0a3MEvyRJ7+TQf7c0AyaksN1eEfeW3LHH",
-      { /* configuration as shown above */ },
+      {},
       document.body
   );
 </script>
 ```
 
-Place this example inside the document body. Replace `server` and `clientId` with
-your configuration; the CCM server must trust the same Google client ID. See
-[Google setup](#google-setup) for configuring the popup's authorized origin.
+Place this example inside the document body. It uses the default configuration,
+including the CCM server at `http://localhost:8080`. For a custom Google OAuth
+client or popup, see [Google setup](#google-setup).
 Update the component URL and its integrity hash together when changing versions.
 
 ## Public interface
