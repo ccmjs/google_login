@@ -11,7 +11,7 @@ export function main(app) {
           aria-label="${app.labels.logout}" title="${app.labels.logout}">${logoutIcon(app)}</button>
       </div>
     ` : app.ui.html`<button type="button" data-on-click="login" ${app.gui.busy || app.gui.disabled ? "disabled" : ""}
-            aria-busy="${app.gui.busy}">${app.labels.button}</button>`}
+            aria-busy="${String(app.gui.busy)}">${app.labels.button}</button>`}
     <p role="status" aria-live="polite">${app.gui.message}</p>
     </div>
   `;
