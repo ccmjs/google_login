@@ -47,13 +47,13 @@ session; it neither signs out of Google nor revokes an already issued JWT.
 
 ```html
 <script
-    src="https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.0/libs/framework/ccm-28.0.0.min.js"
+    src="https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.1/libs/framework/ccm-28.0.0.min.js"
     integrity="sha384-HDMeDDgKlR2OFJ3ECMwmA6wknqpfpeCiSZYlUhQaFg9FKrvHJp8MMSwrxibvWJ2G"
     crossorigin="anonymous"
 ></script>
 <script type="module">
   ccm.start(
-      "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.0/ccm.google_login-1.0.0.min.mjs#sha384-wTlZ223RFcOxprPqjAUvwKbS6EZCWySTnAtcaYbamMcafoFC7lxn8PGOueXEzWSd",
+      "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.1/ccm.google_login-1.0.1.min.mjs#sha384-ChubwnOOQyz4n+wcldm+U0K+28VaVoP0a3MEvyRJ7+TQf7c0AyaksN1eEfeW3LHH",
       { /* configuration as shown above */ },
       document.body
   );
