@@ -7,8 +7,11 @@ No build step or package installation is needed.
 
 ## Usage
 
+For the local path below, copy the component file together with its `libs/` and
+`resources/` directories into your app's `libs/google_login/` directory.
+
 ```javascript
-user: ["ccm.instance", "https://ccmjs.github.io/google_login/ccm.google_login.mjs", {
+user: ["ccm.instance", "././libs/google_login/ccm.google_login.mjs", {
   server: "https://YOUR_CCM_SERVER",
   clientId: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
   realm: "ccm",
@@ -39,6 +42,28 @@ sessionStorage, separated by server and realm. The Google proof is discarded aft
 exchange. Restored metadata is provisional; the server checks the token on the next
 request. Storage failures do not prevent login. Logout clears local state and saved
 session; it neither signs out of Google nor revokes an already issued JWT.
+
+## 📦 Usage with CDN (versioned)
+
+```html
+<script
+    src="https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.0/libs/framework/ccm-28.0.0.min.js"
+    integrity="sha384-HDMeDDgKlR2OFJ3ECMwmA6wknqpfpeCiSZYlUhQaFg9FKrvHJp8MMSwrxibvWJ2G"
+    crossorigin="anonymous"
+></script>
+<script type="module">
+  ccm.start(
+      "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.0/ccm.google_login-1.0.0.min.mjs#sha384-wTlZ223RFcOxprPqjAUvwKbS6EZCWySTnAtcaYbamMcafoFC7lxn8PGOueXEzWSd",
+      { /* configuration as shown above */ },
+      document.body
+  );
+</script>
+```
+
+Place this example inside the document body. Replace `server` and `clientId` with
+your configuration; the CCM server must trust the same Google client ID. See
+[Google setup](#google-setup) for configuring the popup's authorized origin.
+Update the component URL and its integrity hash together when changing versions.
 
 ## Public interface
 
