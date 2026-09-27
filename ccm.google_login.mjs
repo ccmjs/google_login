@@ -5,6 +5,7 @@
  * @author André Kless <andre.kless@web.de>
  * @copyright 2026 André Kless
  * @license MIT
+ * @version 1.0.0
  */
 export const component = {
   name: "google_login",

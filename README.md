@@ -104,7 +104,6 @@ Never put a client secret in browser files.
 - `resources/auth.mjs`: logic running inside the popup. Opener communication is a private helper in the component.
 - `libs/`: versioned framework 28.0.0 and ccm-ui 1.0.0, each bundled as a minified file with its source map and license.
 
-Run `node --test test/*.test.mjs`.
 See the Google setup instructions below.
 
 ## Google setup
