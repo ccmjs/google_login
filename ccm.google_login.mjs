@@ -5,11 +5,11 @@
  * @author André Kless <andre.kless@web.de>
  * @copyright 2026 André Kless
  * @license MIT
- * @version 1.0.1
+ * @version 1.0.2
  */
 export const component = {
   name: "google_login",
-  ccm: "././libs/framework/ccm-28.0.0.min.js",
+  ccm: "././libs/framework/ccm-29.1.0.min.js",
   config: {
     /** Public Google OAuth Web client ID; the CCM server must trust the same client. */
     clientId: "90855209934-9vas1fscpkefmglhfou7lut1uhv62ear.apps.googleusercontent.com",

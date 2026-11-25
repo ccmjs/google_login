@@ -3,16 +3,16 @@
 Standalone ccmjs authentication using Google as the only login method. After Google
 sign-in, the component exchanges the proof at a CCM server and manages the returned
 CCM JWT. Apps can use it directly as `config.user`, without the User component.
-No build step or package installation is needed.
+No build step or package installation is needed. See the [changelog](CHANGELOG.md) for the version history.
 
 ## Usage
 
-Place the released `ccm.google_login-1.0.1.min.mjs` file in your app's
+Place the released `ccm.google_login-1.0.2.min.mjs` file in your app's
 `libs/google_login/` directory. This version loads its views, styles and libraries
-from the pinned v1.0.1 CDN release; you do not need to copy their directories.
+from the pinned v1.0.2 CDN release; you do not need to copy their directories.
 
 ```javascript
-user: ["ccm.instance", "././libs/google_login/ccm.google_login-1.0.1.min.mjs"],
+user: ["ccm.instance", "././libs/google_login/ccm.google_login-1.0.2.min.mjs"],
 ```
 
 No additional configuration is required for the default setup. Start a CCM server
@@ -44,13 +44,13 @@ session; it neither signs out of Google nor revokes an already issued JWT.
 
 ```html
 <script
-    src="https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.1/libs/framework/ccm-28.0.0.min.js"
-    integrity="sha384-HDMeDDgKlR2OFJ3ECMwmA6wknqpfpeCiSZYlUhQaFg9FKrvHJp8MMSwrxibvWJ2G"
+    src="https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.2/libs/framework/ccm-29.1.0.min.js"
+    integrity="sha384-+Ra3mH+gwP++yhMqYTOSnzIpDlhdMQINbkbEI8POBy4y7CYFng/c+KxtSJXiLsJA"
     crossorigin="anonymous"
 ></script>
 <script type="module">
   ccm.start(
-      "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.1/ccm.google_login-1.0.1.min.mjs#sha384-ChubwnOOQyz4n+wcldm+U0K+28VaVoP0a3MEvyRJ7+TQf7c0AyaksN1eEfeW3LHH",
+      "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.2/ccm.google_login-1.0.2.min.mjs#sha384-dSkOx2WKzUhJj1TXXhLcRi4rl5RTLlBk6O2JBhC6h2G3MXv2irItzekogy9hLXnw",
       {},
       document.body
   );
@@ -124,7 +124,7 @@ Never put a client secret in browser files.
 - `resources/`: views, CSS and popup page logic.
 - `auth.html`: minimal callback entry point; markup comes from `resources/views.mjs`.
 - `resources/auth.mjs`: logic running inside the popup. Opener communication is a private helper in the component.
-- `libs/`: versioned framework 28.0.0 and ccm-ui 1.0.0, each bundled as a minified file with its source map and license.
+- `libs/`: versioned framework 29.1.0 and ccm-ui 1.0.0, both bundled with a minified file, source map and license. The readable framework source is also included.
 
 See the Google setup instructions below.
 
