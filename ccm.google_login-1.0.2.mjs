@@ -9,7 +9,7 @@
  */
 export const component = {
   name: "google_login",
-  ccm: "././libs/framework/ccm-29.1.0.min.js",
+  ccm: "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.2/libs/framework/ccm-29.1.0.min.js",
   config: {
     /** Public Google OAuth Web client ID; the CCM server must trust the same client. */
     clientId: "90855209934-9vas1fscpkefmglhfou7lut1uhv62ear.apps.googleusercontent.com",
@@ -26,11 +26,11 @@ export const component = {
     /** Whether the CCM session should include Google's profile picture URL. */
     picture: true,
     /** UI utilities for HTML templates, rendering and DOM event binding. */
-    ui: ["ccm.load", "././libs/ccm-ui/ccm-ui-1.0.0.min.mjs"],
+    ui: ["ccm.load", "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.2/libs/ccm-ui/ccm-ui-1.0.0.min.mjs"],
     /** Templates for the login button and signed-in account view. */
-    views: ["ccm.load", "././resources/views.mjs"],
+    views: ["ccm.load", "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.2/resources/views.mjs"],
     /** Styles for this component instance; the hosted popup uses its own stylesheet. */
-    css: ["ccm.load", "././resources/styles.css"],
+    css: ["ccm.load", "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.2/resources/styles.css"],
     /** Event handlers receiving { app, type }, awaited sequentially in configuration order. */
     extensions: [],
     /** Inline SVG markup or image URL for the compact sign-out action. */
