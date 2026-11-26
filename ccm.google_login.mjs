@@ -5,7 +5,7 @@
  * @author André Kless <andre.kless@web.de>
  * @copyright 2026 André Kless
  * @license MIT
- * @version 1.0.2
+ * @version 1.1.0
  */
 export const component = {
   name: "google_login",
@@ -21,7 +21,7 @@ export const component = {
     realm: "ccm",
     /** Preserve the CCM session in this tab across reloads. */
     session: true,
-    /** Verified Google field used as display name: name, given_name, family_name, email or id (Google subject). */
+    /** Verified Google field used as display name: `"name"`, `"given_name"`, `"family_name"`, `"email"` or `"id"` (Google subject). */
     displayName: "name",
     /** Whether the CCM session should include Google's profile picture URL. */
     picture: true,
@@ -31,56 +31,12 @@ export const component = {
     views: ["ccm.load", "././resources/views.mjs"],
     /** Styles for this component instance; the hosted popup uses its own stylesheet. */
     css: ["ccm.load", "././resources/styles.css"],
-    /** Event handlers receiving { app, type }, awaited sequentially in configuration order. */
+    /** Event handlers receiving `{ app, type }`, awaited sequentially in configuration order. */
     extensions: [],
-    /** Inline SVG markup or image URL for the compact sign-out action. */
-    icons: {
-      logout: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-        focusable="false"><path d="M9 4H4v16h5 M10 12h10 M16 8l4 4-4 4"/></svg>`,
-    },
-    /** Configurable interface text and error messages. */
-    labels: {
-      /** Text of the Google sign-in button. */
-      button: "Sign in with Google",
-      /** Text of the local sign-out button. */
-      logout: "Sign out",
-      /** Error when the CCM response has invalid metadata or a missing token. */
-      invalidResponse: "The server returned an invalid authentication response.",
-      /** Error when login is requested while the component is disabled. */
-      disabled: "Login is currently unavailable.",
-      /** Visible fallback message when authentication fails. */
-      failed: "Google sign-in failed. Please try again.",
-      /** Error when the browser prevents opening the popup. */
-      popupBlocked: "Please allow the login popup and try again.",
-      /** Error when the popup does not complete within the time limit. */
-      timeout: "Google sign-in timed out. Please try again.",
-      /** Message of the AbortError returned when login is canceled. */
-      cancelled: "Login cancelled.",
-      /** Labels sent to the hosted popup through the opener handshake. */
-      popup: {
-        /** Language code for the popup document and Google button. */
-        language: "en",
-        /** Popup window title. */
-        title: "Sign in with Google",
-        /** Text displayed before the requesting website origin. */
-        heading: "Sign in for",
-        /** Text of the button for retrying the Google script load. */
-        retry: "Try again",
-        /** Status while loading the Google sign-in library. */
-        loading: "Loading Google sign-in …",
-        /** Status after sending the Google proof back to the opener. */
-        transferring: "Returning sign-in to the website …",
-        /** Error when the Google sign-in library cannot be loaded. */
-        loadFailed: "Google could not be loaded. Please try again.",
-        /** Error for a disallowed requesting website URL. */
-        invalidURL: "An HTTPS address is required (HTTP is allowed locally).",
-        /** Error when the popup request or initialization message is invalid. */
-        invalidRequest: "Please open this page using the user component's Google button.",
-        /** Error when the opener supplies no usable Google client ID. */
-        missingClientId: "The Google client ID is missing in the component configuration.",
-      },
-    },
+    /** Sign-out icon from content.mjs. Accepts trusted inline SVG markup or an image URL. */
+    icons: ["ccm.load", "././resources/content.mjs#icons"],
+    /** Interface and popup text. Select #labels.de for German or supply partial label overrides. */
+    labels: ["ccm.load", "././resources/content.mjs#labels.en"],
   },
   Instance: function () {
     /** Temporary interface state; no credentials are stored in GUI state. */
@@ -112,8 +68,12 @@ export const component = {
     /** Session event listeners registered by dependent Google login instances. */
     const listeners = new Set();
 
-    /** Normalizes the server URL before session storage is accessed. */
+    /** Resolves per-instance content and normalizes the server URL before session storage is accessed. */
     this.init = async () => {
+      // A custom configuration can replace a whole map or just a few entries, including popup labels.
+      const [defaults, icons] = await this.ccm.load(component.config.labels[1], component.config.icons[1]);
+      this.labels = { ...defaults, ...this.labels, popup: { ...defaults.popup, ...this.labels.popup } };
+      this.icons = { ...icons, ...this.icons };
       // Equivalent server URLs must use the same storage key; invalid absolute URLs fail early.
       this.server = new URL(this.server).href;
       await this.emit("init");
@@ -316,7 +276,7 @@ export const component = {
       const url = new URL(this.url || "./auth.html", import.meta.url);
       // Bind replies to this attempt, even when several instances use the same hosted page.
       const request = crypto.randomUUID();
-      url.hash = new URLSearchParams({ origin: location.origin, request }).toString();
+      url.hash = new URLSearchParams({ origin: location.origin, request, language: labels.popup.language }).toString();
       const popup = window.open(url.href, "_blank", "popup,width=520,height=680");
       if (!popup) return { promise: Promise.reject(new Error(labels.popupBlocked)), cancel() {} };
       /** Assigned inside the promise so external cancellation uses the same cleanup path. */

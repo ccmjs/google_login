@@ -2,6 +2,13 @@
 
 Notable changes to the ccmjs Google Login component are documented here, newest first.
 
+## 1.1.0
+
+### Added
+
+- English and German labels for the component and its popup are available in
+  `resources/content.mjs`, alongside the default sign-out icon.
+
 ## 1.0.2
 
 ### Changed

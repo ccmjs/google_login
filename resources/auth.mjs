@@ -1,15 +1,12 @@
+import { labels as translations } from "./content.mjs";
 import { popup } from "./views.mjs";
 
 // Build the popup before looking up its fields or accepting messages from the opener.
 document.body.innerHTML = popup();
 
-/** Fallback errors for direct or invalid calls before configuration arrives. */
-let labels = {
-  invalidURL: "An HTTPS address is required (HTTP is allowed locally).",
-  invalidRequest: "Please open this page using the user component's Google button.",
-};
-
 const params = new URLSearchParams(location.hash.slice(1));
+// Show bundled text immediately, including when an invalid request prevents the handshake.
+let labels = params.get("language") === "de" ? translations.de.popup : translations.en.popup;
 const request = params.get("request");
 const origin = params.get("origin");
 const message = document.querySelector("#message");
@@ -27,7 +24,8 @@ function applyLabels() {
   retry.textContent = labels.retry;
 }
 
-message.textContent = "Waiting for the requesting website …";
+applyLabels();
+message.textContent = labels.waiting;
 
 function allowedURL(value) {
   const url = new URL(value);

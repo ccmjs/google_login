@@ -7,12 +7,12 @@ No build step or package installation is needed. See the [changelog](CHANGELOG.m
 
 ## Usage
 
-Place the released `ccm.google_login-1.0.2.min.mjs` file in your app's
-`libs/google_login/` directory. This version loads its views, styles and libraries
-from the pinned v1.0.2 CDN release; you do not need to copy their directories.
+Place the released `ccm.google_login-1.1.0.min.mjs` file in your app's
+`libs/google_login/` directory. This version loads its views, styles, labels, icons and libraries
+from the pinned v1.1.0 CDN release; you do not need to copy their directories.
 
 ```javascript
-user: ["ccm.instance", "././libs/google_login/ccm.google_login-1.0.2.min.mjs"],
+user: ["ccm.instance", "././libs/google_login/ccm.google_login-1.1.0.min.mjs"],
 ```
 
 No additional configuration is required for the default setup. Start a CCM server
@@ -44,13 +44,13 @@ session; it neither signs out of Google nor revokes an already issued JWT.
 
 ```html
 <script
-    src="https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.2/libs/framework/ccm-29.1.0.min.js"
+    src="https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.1.0/libs/framework/ccm-29.1.0.min.js"
     integrity="sha384-+Ra3mH+gwP++yhMqYTOSnzIpDlhdMQINbkbEI8POBy4y7CYFng/c+KxtSJXiLsJA"
     crossorigin="anonymous"
 ></script>
 <script type="module">
   ccm.start(
-      "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.0.2/ccm.google_login-1.0.2.min.mjs#sha384-dSkOx2WKzUhJj1TXXhLcRi4rl5RTLlBk6O2JBhC6h2G3MXv2irItzekogy9hLXnw",
+      "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.1.0/ccm.google_login-1.1.0.min.mjs#sha384-VZppHtlcluVDLnNjMQjr11D4kZm71FLZ0H8jb38FQ3bYyoaWbrYC9Xajt6m6lAH8",
       {},
       document.body
   );
@@ -121,7 +121,7 @@ relative to the component. Set the public client ID through `config.clientId`; t
 Never put a client secret in browser files.
 
 - `ccm.google_login.mjs`: configuration, lifecycle, session and login orchestration.
-- `resources/`: views, CSS and popup page logic.
+- `resources/`: views, CSS, localized content and popup page logic.
 - `auth.html`: minimal callback entry point; markup comes from `resources/views.mjs`.
 - `resources/auth.mjs`: logic running inside the popup. Opener communication is a private helper in the component.
 - `libs/`: versioned framework 29.1.0 and ccm-ui 1.0.0, both bundled with a minified file, source map and license. The readable framework source is also included.
@@ -153,9 +153,26 @@ The Google callback returns an ID token, not a CCM token. A consuming backend mu
 verify it using the configured client ID. The CCM server already supports this exchange
 via `{ login: "google", credentials, realm }`.
 
-All visible component labels are in `config.labels`; popup labels are nested under
-`config.labels.popup`. The popup receives them through the validated message handshake.
-Before that handshake only fallback error/status text is available.
+### Language and icons
+
+[`resources/content.mjs`](resources/content.mjs) exports `labels.en`, `labels.de` and
+`icons`. English is the default. To use German in the repository demo, pass this
+configuration to `ccm.start`:
+
+```javascript
+{ labels: ["ccm.load", "././resources/content.mjs#labels.de"] }
+```
+
+For an app embedding the released component, load the German labels from its CDN URL:
+
+```javascript
+{ labels: ["ccm.load", "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.1.0/resources/content.mjs#labels.de"] }
+```
+
+The selected language covers the component, popup and Google button.
+For individual changes, pass a partial object such as
+`labels: { popup: { retry: "Retry" } }`. Omitted entries use their English defaults.
+Set `icons.logout` to trusted inline SVG markup or an image URL to change the sign-out icon.
 
 Official documentation:
 - https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid
