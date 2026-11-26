@@ -124,7 +124,7 @@ Never put a client secret in browser files.
 - `resources/`: views, CSS, localized content and popup page logic.
 - `auth.html`: minimal callback entry point; markup comes from `resources/views.mjs`.
 - `resources/auth.mjs`: logic running inside the popup. Opener communication is a private helper in the component.
-- `libs/`: versioned framework 29.1.0 and ccm-ui 1.0.0, both bundled with a minified file, source map and license. The readable framework source is also included.
+- `libs/`: ccmjs 29.1.0 and ccm-ui 1.0.0. When updating a library, include its versioned readable and minified files, source map and license together.
 
 See the Google setup instructions below.
 
