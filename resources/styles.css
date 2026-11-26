@@ -1,32 +1,102 @@
 .root {
-  width: fit-content;
-  max-width: 100%;
-  font: .875rem/1.4 system-ui, sans-serif;
+  color: #163544;
+  font: .9375rem/1.4 system-ui, sans-serif;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+
   &, & * { box-sizing: border-box; }
+
+  .account { min-inline-size: 0; }
+
   button {
-    min-height: 2rem; padding: .35rem .65rem;
-    border: 1px solid #747775; border-radius: .4rem; background: white;
-    color: #1f1f1f; font: inherit; cursor: pointer;
-    &:hover:not(:disabled) { background: #f3f6fa; }
-    &:focus-visible { outline: 3px solid #4285f4; outline-offset: 3px; }
-    &:disabled { opacity: .55; cursor: default; }
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+
+    &:focus-visible { outline: 3px solid #006b9b; outline-offset: 3px; }
+    &:disabled { opacity: .62; cursor: default; }
   }
+
+  /* Match the 44px account controls of the User component in both states. */
+  button[data-on-click="login"], .profile {
+    display: flex;
+    align-items: center;
+    min-block-size: 44px;
+    max-inline-size: 100%;
+  }
+
+  /* Google's light rectangular web template. The label comes from config.labels.button. */
   button[data-on-click="login"] {
-    min-block-size: 2.5rem;
-    padding-block: .375rem;
+    gap: 10px;
+    padding: 0 11px;
+    border: 1px solid #747775;
+    border-radius: 4px;
+    background: #fff;
+    color: #1f1f1f;
+    font: 500 14px/20px "CCM Google Login Sans", "Google Sans", Arial, sans-serif;
+    text-align: start;
+    overflow-wrap: anywhere;
+
+    &::before {
+      content: "";
+      flex: 0 0 20px;
+      block-size: 20px;
+      background: url("./google/g-logo.png") center / contain no-repeat;
+    }
+
+    &:hover:enabled { background-color: #f8fafd; }
+    &:active:enabled { background-color: #e9eef6; }
+    &[aria-busy="true"] { cursor: progress; }
   }
+
   .profile {
-    display: flex; align-items: center; gap: .5rem;
-    img { width: 1.75rem; height: 1.75rem; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-    .name { max-width: 12rem; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    gap: .5rem;
+    padding-inline-start: .5rem;
+    background: #fff;
+    border-radius: .625rem;
+    outline: 1px solid #a7bdc5;
+    outline-offset: -1px;
+    font-weight: 600;
+
+    &:not(:has(> img))::before {
+      content: "";
+      flex: 0 0 1.875rem;
+      block-size: 1.875rem;
+      background: url("./favicon.svg") center / contain no-repeat;
+    }
+    > img { inline-size: 1.875rem; block-size: 1.875rem; border-radius: .4rem; object-fit: cover; }
+    .name {
+      min-inline-size: 0;
+      max-inline-size: 12rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
     .logout {
-      display: inline-flex; align-items: center; justify-content: center;
-      flex-shrink: 0; inline-size: 2.5rem; block-size: 2.5rem; padding: .5rem;
-      border-color: transparent; background: transparent;
-      .icon { display: inline-flex; inline-size: 1.2rem; block-size: 1.2rem; }
-      .icon > svg, .icon > img { width: 100%; height: 100%; border-radius: 0; object-fit: contain; }
+      display: grid;
+      place-items: center;
+      flex: none;
+      align-self: stretch;
+      inline-size: 40px;
+      padding: .5rem;
+      border: 0;
+      border-inline-start: 1px solid #d9e5e7;
+      border-radius: 0 .625rem .625rem 0;
+      background: transparent;
+
+      &:hover:enabled { background: #eaf5f9; }
+      .icon, .icon > :is(svg, img) { display: block; inline-size: 1.125rem; block-size: 1.125rem; object-fit: contain; }
     }
   }
-  p { max-width: 22rem; margin: .35rem 0 0; color: #a51d22; }
-  p:empty { display: none; }
+
+  p[role="status"] {
+    max-inline-size: 24rem;
+    padding-inline-start: .625rem;
+    margin: .65rem 0 0;
+    border-inline-start: 3px solid #ffc857;
+    font-size: .875rem;
+    color: #8e322c;
+    overflow-wrap: anywhere;
+    &:empty { display: none; }
+  }
 }

@@ -17,11 +17,12 @@ export function main(app) {
   `;
 }
 
-/** Creates the hosted popup's initial structure; labels are filled after the opener handshake. */
+/** The popup uses bundled labels on opening and applies the caller's labels after the handshake. */
 export function popup() {
   return `
-  <main>
-    <h1><span id="heading"></span> <strong id="origin"></strong></h1>
+  <main class="login-popup">
+    <h1 id="title"></h1>
+    <p class="requester"><span id="heading"></span><strong id="origin"></strong></p>
     <button id="retry" type="button" hidden></button>
     <div id="google"></div>
     <p id="message" role="status" aria-live="polite"></p>

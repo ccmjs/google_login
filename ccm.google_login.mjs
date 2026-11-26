@@ -5,7 +5,7 @@
  * @author André Kless <andre.kless@web.de>
  * @copyright 2026 André Kless
  * @license MIT
- * @version 1.1.0
+ * @version 1.2.0
  */
 export const component = {
   name: "google_login",
@@ -31,6 +31,8 @@ export const component = {
     views: ["ccm.load", "././resources/views.mjs"],
     /** Styles for this component instance; the hosted popup uses its own stylesheet. */
     css: ["ccm.load", "././resources/styles.css"],
+    /** Google Sans for the sign-in button. Register the font in the document so Shadow DOM instances can use it. */
+    font: ["ccm.load", { url: "././resources/google/font.css", context: globalThis.document?.head }],
     /** Event handlers receiving `{ app, type }`, awaited sequentially in configuration order. */
     extensions: [],
     /** Sign-out icon from content.mjs. Accepts trusted inline SVG markup or an image URL. */

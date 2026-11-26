@@ -20,6 +20,7 @@ let completed = false;
 function applyLabels() {
   document.title = labels.title;
   document.documentElement.lang = labels.language;
+  document.querySelector("#title").textContent = labels.title;
   document.querySelector("#heading").textContent = labels.heading;
   retry.textContent = labels.retry;
 }

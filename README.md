@@ -7,12 +7,12 @@ No build step or package installation is needed. See the [changelog](CHANGELOG.m
 
 ## Usage
 
-Place the released `ccm.google_login-1.1.0.min.mjs` file in your app's
+Place the released `ccm.google_login-1.2.0.min.mjs` file in your app's
 `libs/google_login/` directory. This version loads its views, styles, labels, icons and libraries
-from the pinned v1.1.0 CDN release; you do not need to copy their directories.
+from the pinned v1.2.0 CDN release; you do not need to copy their directories.
 
 ```javascript
-user: ["ccm.instance", "././libs/google_login/ccm.google_login-1.1.0.min.mjs"],
+user: ["ccm.instance", "././libs/google_login/ccm.google_login-1.2.0.min.mjs"],
 ```
 
 No additional configuration is required for the default setup. Start a CCM server
@@ -44,13 +44,13 @@ session; it neither signs out of Google nor revokes an already issued JWT.
 
 ```html
 <script
-    src="https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.1.0/libs/framework/ccm-29.1.0.min.js"
+    src="https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.2.0/libs/framework/ccm-29.1.0.min.js"
     integrity="sha384-+Ra3mH+gwP++yhMqYTOSnzIpDlhdMQINbkbEI8POBy4y7CYFng/c+KxtSJXiLsJA"
     crossorigin="anonymous"
 ></script>
 <script type="module">
   ccm.start(
-      "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.1.0/ccm.google_login-1.1.0.min.mjs#sha384-VZppHtlcluVDLnNjMQjr11D4kZm71FLZ0H8jb38FQ3bYyoaWbrYC9Xajt6m6lAH8",
+      "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.2.0/ccm.google_login-1.2.0.min.mjs#sha384-CD70loFJpafprGkphdibop0lhcMCZwqHj2DuNzZMqnLu6sdy5iaHryirdedsBor2",
       {},
       document.body
   );
@@ -166,10 +166,15 @@ configuration to `ccm.start`:
 For an app embedding the released component, load the German labels from its CDN URL:
 
 ```javascript
-{ labels: ["ccm.load", "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.1.0/resources/content.mjs#labels.de"] }
+{ labels: ["ccm.load", "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.2.0/resources/content.mjs#labels.de"] }
 ```
 
 The selected language covers the component, popup and Google button.
+The sign-in button follows Google’s light rectangular web template. The component
+serves the official G and Google Sans Medium from `resources/google/`.
+See [Google’s sign-in branding guidelines](https://developers.google.com/identity/branding-guidelines)
+and the [Google Sans font license](resources/google/OFL.txt).
+
 For individual changes, pass a partial object such as
 `labels: { popup: { retry: "Retry" } }`. Omitted entries use their English defaults.
 Set `icons.logout` to trusted inline SVG markup or an image URL to change the sign-out icon.

@@ -1,0 +1,6 @@
+@font-face {
+  font-family: "CCM Google Login Sans";
+  src: url("./google-sans-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
