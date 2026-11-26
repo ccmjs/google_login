@@ -9,7 +9,7 @@
  */
 export const component = {
   name: "google_login",
-  ccm: "././libs/framework/ccm-29.1.0.min.js",
+  ccm: "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.2.0/libs/framework/ccm-29.1.0.min.js",
   config: {
     /** Public Google OAuth Web client ID; the CCM server must trust the same client. */
     clientId: "90855209934-9vas1fscpkefmglhfou7lut1uhv62ear.apps.googleusercontent.com",
@@ -26,19 +26,19 @@ export const component = {
     /** Whether the CCM session should include Google's profile picture URL. */
     picture: true,
     /** UI utilities for HTML templates, rendering and DOM event binding. */
-    ui: ["ccm.load", "././libs/ccm-ui/ccm-ui-1.0.0.min.mjs"],
+    ui: ["ccm.load", "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.2.0/libs/ccm-ui/ccm-ui-1.0.0.min.mjs"],
     /** Templates for the login button and signed-in account view. */
-    views: ["ccm.load", "././resources/views.mjs"],
+    views: ["ccm.load", "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.2.0/resources/views.mjs"],
     /** Styles for this component instance; the hosted popup uses its own stylesheet. */
-    css: ["ccm.load", "././resources/styles.css"],
+    css: ["ccm.load", "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.2.0/resources/styles.css"],
     /** Google Sans for the sign-in button. Register the font in the document so Shadow DOM instances can use it. */
-    font: ["ccm.load", { url: "././resources/google/font.css", context: globalThis.document?.head }],
+    font: ["ccm.load", { url: "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.2.0/resources/google/font.css", context: globalThis.document?.head }],
     /** Event handlers receiving `{ app, type }`, awaited sequentially in configuration order. */
     extensions: [],
     /** Sign-out icon from content.mjs. Accepts trusted inline SVG markup or an image URL. */
-    icons: ["ccm.load", "././resources/content.mjs#icons"],
+    icons: ["ccm.load", "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.2.0/resources/content.mjs#icons"],
     /** Interface and popup text. Select #labels.de for German or supply partial label overrides. */
-    labels: ["ccm.load", "././resources/content.mjs#labels.en"],
+    labels: ["ccm.load", "https://cdn.jsdelivr.net/gh/ccmjs/google_login@v1.2.0/resources/content.mjs#labels.en"],
   },
   Instance: function () {
     /** Temporary interface state; no credentials are stored in GUI state. */
